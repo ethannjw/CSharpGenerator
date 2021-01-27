@@ -1,0 +1,2248 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CAKE 2",
+    "description": "Cake 2 Testing API Creation",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/K9459/CAKE2/1",
+      "description": "SwaggerHub API Auto Mocking"
+    }
+  ],
+  "paths": {
+    "/v1/api/courses": {
+      "get": {
+        "tags": [
+          "course"
+        ],
+        "summary": "Read all Courses",
+        "description": "By passing in the appropriate options, you can search for\navailable course in the system\n",
+        "operationId": "readAllCourses",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Course"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid Input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "course"
+        ],
+        "summary": "Update an existing course",
+        "operationId": "updateCourse",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Course"
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Course not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "course"
+        ],
+        "summary": "Create Course",
+        "description": "By passing in the appropriate options, you can create course in the system\n",
+        "operationId": "createCourse",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Course"
+        },
+        "responses": {
+          "201": {
+            "description": "Created Sucessfully"
+          },
+          "405": {
+            "description": "Invalid Input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/courses/{courseId}": {
+      "get": {
+        "tags": [
+          "course"
+        ],
+        "summary": "Read course for a specific course id",
+        "operationId": "readCourseById",
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "description": "ID of course to return",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Course"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Course does not exist"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "course"
+        ],
+        "summary": "Updates a course by course Id",
+        "operationId": "updateCourseById",
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "description": "ID of course that needs to be updated",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "course"
+        ],
+        "summary": "Removes a course",
+        "operationId": "removeCourse",
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "description": "Course to remove using course id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Course not found"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/courses/mandatory": {
+      "get": {
+        "tags": [
+          "course"
+        ],
+        "summary": "Read all mandatory courses",
+        "description": "By passing in the appropriate options, you can search for\navailable course in the system\n",
+        "operationId": "readMandatoryCourses",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseCard"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid Input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/courses/popular": {
+      "get": {
+        "tags": [
+          "course"
+        ],
+        "summary": "Read all popular courses",
+        "description": "By passing in the appropriate options, you can search for\navailable course in the system\n",
+        "operationId": "readPopularCourses",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseCard"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid Input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/courses/enrolled": {
+      "get": {
+        "tags": [
+          "course"
+        ],
+        "summary": "Read all enrolled courses",
+        "description": "By passing in the appropriate options, you can search for\navailable course in the system\n",
+        "operationId": "readEnrolledCourses",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseCard"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid Input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/courses/suggested": {
+      "get": {
+        "tags": [
+          "course"
+        ],
+        "summary": "Read all suggested courses",
+        "description": "By passing in the appropriate options, you can search for\navailable course in the system\n",
+        "operationId": "readSuggestedCourses",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseCard"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid Input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/courses/findByString": {
+      "get": {
+        "tags": [
+          "course"
+        ],
+        "summary": "Read courses by provided string",
+        "operationId": "readCourseByString",
+        "parameters": [
+          {
+            "name": "courseName",
+            "in": "query",
+            "description": "Course Name to filter by",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseCard"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid course name"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/courses/findByStatus": {
+      "get": {
+        "tags": [
+          "course"
+        ],
+        "summary": "Read course by Course Status",
+        "operationId": "readCourseByStatus",
+        "parameters": [
+          {
+            "name": "courseStatus",
+            "in": "query",
+            "description": "Status values that need to be considered for filter",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "default": "Active",
+                "enum": [
+                  "Active",
+                  "Completed",
+                  "Cancelled"
+                ]
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseCard"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid course status"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/courses/register/{userId}/{courseId}": {
+      "post": {
+        "tags": [
+          "course"
+        ],
+        "summary": "Register a learner to a course",
+        "operationId": "createLearnerCourse",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The userId that is registering for the course",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "courseId",
+            "in": "path",
+            "description": "The course that the user is registering for",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Registration fail"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/coursereviews/{courseId}": {
+      "get": {
+        "tags": [
+          "courseReview"
+        ],
+        "summary": "Read all course Reviews for the current course ID",
+        "description": "By passing in the appropriate options, you can retrieve course reviews for the the current course id\n",
+        "operationId": "readCoursesReviews",
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "description": "The course that is being reviewed",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseReview"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid Input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "courseReview"
+        ],
+        "summary": "Update an existing course review",
+        "operationId": "updateCourseReview",
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "description": "The course that is being reviewed",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CourseReview"
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Course Review not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "courseReview"
+        ],
+        "summary": "Creating a course review for a course",
+        "operationId": "createCourseReview",
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "description": "The course that is being reviewed",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CourseReview"
+        },
+        "responses": {
+          "201": {
+            "description": "Created Successfully"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/coursereviews/{coursereviewId}": {
+      "post": {
+        "tags": [
+          "courseReview"
+        ],
+        "summary": "Updates a course review for a course by course review id",
+        "operationId": "updateCourseReviewById",
+        "parameters": [
+          {
+            "name": "coursereviewId",
+            "in": "path",
+            "description": "Updates Course Review by Course Review ID",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/body_1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "courseReview"
+        ],
+        "summary": "Removes a course review",
+        "operationId": "removeCourseReview",
+        "parameters": [
+          {
+            "name": "coursereviewId",
+            "in": "path",
+            "description": "Course Review id to delete",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Course Review not found"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/coursecategorys": {
+      "get": {
+        "tags": [
+          "courseCategory"
+        ],
+        "summary": "Read all Course Categories",
+        "operationId": "readAllCourseCategory",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseCategory"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid Input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "courseCategory"
+        ],
+        "summary": "Update existing course category",
+        "operationId": "updateCourseCategory",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CourseCategory"
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "courseCategory"
+        ],
+        "summary": "Create a new course category",
+        "operationId": "createCourseCategory",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CourseCategory"
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully added"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/coursecategorys/{coursecategoryId}": {
+      "post": {
+        "tags": [
+          "courseCategory"
+        ],
+        "summary": "Updates a course category by course category id",
+        "operationId": "updateCourseCategoryById",
+        "parameters": [
+          {
+            "name": "coursecategoryId",
+            "in": "path",
+            "description": "Course Category id to updated",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/body_2"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "courseCategory"
+        ],
+        "summary": "Removes a course category",
+        "operationId": "removesCourseCategory",
+        "parameters": [
+          {
+            "name": "coursecategoryId",
+            "in": "path",
+            "description": "Course Category id to delete",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Course Review not found"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/coursedetail/{courseId}": {
+      "get": {
+        "tags": [
+          "courseDetail"
+        ],
+        "summary": "Read all course detail for the current course by course id",
+        "operationId": "readCourseDetail",
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "description": "Course Id to retrieve details of current course",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Course does not exist"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/coursedetail/courseoutline/{courseId}": {
+      "get": {
+        "tags": [
+          "courseDetail"
+        ],
+        "summary": "Reads all course outline, contents with minimal info for displaying",
+        "operationId": "readCourseOutline",
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "description": "Course Id to retrieve details of current course",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseOutline"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Course does not exist"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/contents": {
+      "get": {
+        "tags": [
+          "content"
+        ],
+        "summary": "Read all contents",
+        "operationId": "readAllContents",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Content"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid Input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "content"
+        ],
+        "summary": "Update an existing content",
+        "operationId": "updateContent",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Content"
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Course Review not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "content"
+        ],
+        "summary": "Create content",
+        "operationId": "createContent",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Content"
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully added"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/contents/{contentId}": {
+      "get": {
+        "tags": [
+          "content"
+        ],
+        "summary": "Read Content by Content Id",
+        "operationId": "readContentById",
+        "parameters": [
+          {
+            "name": "contentId",
+            "in": "path",
+            "description": "Content Id to retrieve content",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Content"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Content does not exist"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "content"
+        ],
+        "summary": "Update Content by Content Id",
+        "operationId": "updateContentById",
+        "parameters": [
+          {
+            "name": "contentId",
+            "in": "path",
+            "description": "Content Id to retrieve content",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/body_3"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "content"
+        ],
+        "summary": "Removes a content",
+        "operationId": "readContent",
+        "parameters": [
+          {
+            "name": "contentId",
+            "in": "path",
+            "description": "Content Id to retrieve content",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Content not found"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/performance/roadmap/{learnerId}": {
+      "get": {
+        "tags": [
+          "performance"
+        ],
+        "summary": "Read Roadmap of learner",
+        "operationId": "getRoadmap",
+        "parameters": [
+          {
+            "name": "learnerId",
+            "in": "path",
+            "description": "Retrieve Roadmap of current learner id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoadMap"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "performance"
+        ],
+        "summary": "Update Roadmap for Learner",
+        "operationId": "updateRoadMap",
+        "parameters": [
+          {
+            "name": "learnerId",
+            "in": "path",
+            "description": "Update Roadmap of current learner id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/RoadMap"
+        },
+        "responses": {
+          "200": {
+            "description": "Sucessfully updated"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Roadmap not found for current learner"
+          },
+          "405": {
+            "description": "Validation exception"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "performance"
+        ],
+        "summary": "Create Roadmap for Learner",
+        "operationId": "createRoadmap",
+        "parameters": [
+          {
+            "name": "learnerId",
+            "in": "path",
+            "description": "Add Roadmap of current learner id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/RoadMap"
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully added"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/performance/courseinsight/{courseId}": {
+      "get": {
+        "tags": [
+          "performance"
+        ],
+        "summary": "Read course insights for course",
+        "operationId": "readCourseInsight",
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "description": "Get insights for current course",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseInsight"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/quizs": {
+      "get": {
+        "tags": [
+          "quiz"
+        ],
+        "summary": "read all quizzes",
+        "operationId": "readAllQuizes",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Quiz"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid Input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "quiz"
+        ],
+        "summary": "Update Quiz",
+        "operationId": "updateQuiz",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Quiz"
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "quiz"
+        ],
+        "summary": "Create Quiz",
+        "operationId": "createQuiz",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Quiz"
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully added"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/quizs/{quizId}": {
+      "get": {
+        "tags": [
+          "quiz"
+        ],
+        "summary": "Read Quiz by quiz id",
+        "operationId": "readQuizbyId",
+        "parameters": [
+          {
+            "name": "quizId",
+            "in": "path",
+            "description": "Get quiz by current quiz Id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Quiz"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Quiz not found"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "quiz"
+        ],
+        "summary": "Update Quiz by quiz id",
+        "operationId": "updateQuizbyId",
+        "parameters": [
+          {
+            "name": "quizId",
+            "in": "path",
+            "description": "Get quiz by current quiz Id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/body_4"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "404": {
+            "description": "Quiz not found"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "quiz"
+        ],
+        "summary": "Removes a quiz",
+        "operationId": "removeQuiz",
+        "parameters": [
+          {
+            "name": "quizId",
+            "in": "path",
+            "description": "Get quiz by current quiz Id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Quiz not found"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/users": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Read all users",
+        "operationId": "readAllUsers",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid Input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update User",
+        "operationId": "updateUser",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/User"
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create User",
+        "operationId": "createUser",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/User"
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully added"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/api/users/{userId}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Read User by user id",
+        "operationId": "readUserbyId",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Get user by current user Id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update User by user id",
+        "operationId": "updateUserbyId",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Get user by current user Id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/body_5"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "405": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Removes a user",
+        "operationId": "removeUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Get user by current user Id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CourseCard": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "courseName": {
+            "type": "string"
+          },
+          "courseDesc": {
+            "type": "string"
+          },
+          "courseDuration": {
+            "type": "number"
+          },
+          "courseAvgRating": {
+            "type": "number"
+          },
+          "courseImageUrl": {
+            "type": "string"
+          }
+        },
+        "description": "This is a entity for courses card",
+        "xml": {
+          "name": "CourseCard"
+        }
+      },
+      "Course": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "courseId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "courseName": {
+            "type": "string"
+          },
+          "courseDesc": {
+            "type": "string"
+          },
+          "courseCategory": {
+            "type": "string"
+          },
+          "courseTrainer": {
+            "type": "string"
+          },
+          "coursePreview": {
+            "type": "boolean"
+          },
+          "courseStatus": {
+            "type": "string",
+            "default": "Active",
+            "enum": [
+              "Active",
+              "Completed",
+              "Cancelled"
+            ]
+          }
+        },
+        "description": "This is a entity for courses",
+        "xml": {
+          "name": "Course"
+        }
+      },
+      "CourseReview": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "coursereviewId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "courseName": {
+            "type": "string"
+          },
+          "courseDesc": {
+            "type": "string"
+          },
+          "courseReview": {
+            "type": "string"
+          },
+          "courseRating": {
+            "type": "integer"
+          }
+        },
+        "description": "This is a entity for course reviews",
+        "xml": {
+          "name": "CourseReview"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "mobileNumber": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "profilePicUrl": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "string",
+            "enum": [
+              "Learner",
+              "Trainer",
+              "Admin"
+            ]
+          }
+        },
+        "description": "This is a entity for users",
+        "xml": {
+          "name": "User"
+        }
+      },
+      "CourseCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "coursecategoryId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "categoryName": {
+            "type": "string"
+          },
+          "categoryDesc": {
+            "type": "string"
+          }
+        },
+        "description": "This is a entity for course categories",
+        "xml": {
+          "name": "CourseCategory"
+        }
+      },
+      "Content": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "contentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "contentName": {
+            "type": "string"
+          },
+          "contentDesc": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string",
+            "default": "Video",
+            "enum": [
+              "Video",
+              "PDF",
+              "Infographic",
+              "e-Book",
+              "Audiobooks"
+            ]
+          },
+          "contentDuration": {
+            "type": "string"
+          },
+          "contentUrl": {
+            "type": "string"
+          },
+          "contentProgression": {
+            "type": "number"
+          }
+        }
+      },
+      "CourseDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "courseName": {
+            "type": "string"
+          },
+          "courseDesc": {
+            "type": "string"
+          },
+          "courseContents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Content"
+            }
+          },
+          "coursePreview": {
+            "type": "string"
+          },
+          "courseProgression": {
+            "type": "number"
+          }
+        },
+        "description": "This is a entity for course detail",
+        "xml": {
+          "name": "CourseDetail"
+        }
+      },
+      "CourseOutline": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "contentName": {
+            "type": "string"
+          },
+          "contentTitle": {
+            "type": "string"
+          },
+          "contentDesc": {
+            "type": "string"
+          },
+          "contentSection": {
+            "type": "string"
+          },
+          "contentCompletion": {
+            "type": "number"
+          }
+        },
+        "xml": {
+          "name": "CourseOutline"
+        }
+      },
+      "RoadMap": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "learnerName": {
+            "type": "string"
+          },
+          "courseName": {
+            "type": "string"
+          },
+          "learnerGap": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Content"
+            }
+          },
+          "courseProgression": {
+            "type": "number"
+          },
+          "achievements": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "durationSpent": {
+            "type": "number"
+          }
+        },
+        "xml": {
+          "name": "RoadMap"
+        }
+      },
+      "Performance": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "learnerName": {
+            "type": "string"
+          },
+          "courseName": {
+            "type": "string"
+          },
+          "courseScore": {
+            "type": "number"
+          }
+        },
+        "xml": {
+          "name": "Performance"
+        }
+      },
+      "CourseInsight": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "trainerName": {
+            "type": "string"
+          },
+          "courseName": {
+            "type": "string"
+          },
+          "courseAvgScore": {
+            "type": "number"
+          }
+        },
+        "xml": {
+          "name": "CourseInsight"
+        }
+      },
+      "Quiz": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quizId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "question": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "answer": {
+            "type": "string"
+          },
+          "attempts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "attemptsLimit": {
+            "type": "integer"
+          },
+          "score": {
+            "type": "number"
+          }
+        }
+      },
+      "body": {
+        "type": "object",
+        "properties": {
+          "courseName": {
+            "type": "string",
+            "description": "Updated name of the course"
+          },
+          "courseDesc": {
+            "type": "string",
+            "description": "Updated description of the course"
+          },
+          "courseCategory": {
+            "type": "string",
+            "description": "Updated category of the course"
+          },
+          "courseTrainer": {
+            "type": "string",
+            "description": "Updated trainer of the course"
+          },
+          "coursePreview": {
+            "type": "string",
+            "description": "Updated preview of the course"
+          },
+          "courseStatus": {
+            "type": "string",
+            "description": "Updated status of the course"
+          }
+        }
+      },
+      "body_1": {
+        "type": "object",
+        "properties": {
+          "courseReview": {
+            "type": "string",
+            "description": "Updated name of the course"
+          },
+          "courseRating": {
+            "type": "string",
+            "description": "Updated description of the course"
+          }
+        }
+      },
+      "body_2": {
+        "type": "object",
+        "properties": {
+          "categoryName": {
+            "type": "string",
+            "description": "Updated name of the category"
+          },
+          "categoryDesc": {
+            "type": "string",
+            "description": "Updated description of the category"
+          }
+        }
+      },
+      "body_3": {
+        "type": "object",
+        "properties": {
+          "contentName": {
+            "type": "string",
+            "description": "Updated name of the content"
+          },
+          "contentDesc": {
+            "type": "string",
+            "description": "Updated description of the content"
+          },
+          "contentType": {
+            "type": "string",
+            "description": "Updated type of the content",
+            "default": "Video",
+            "enum": [
+              "Video",
+              "PDF",
+              "Infographic",
+              "e-Book",
+              "Audiobooks"
+            ]
+          },
+          "contentDuration": {
+            "type": "string",
+            "description": "Updated duration of content"
+          },
+          "contentUrl": {
+            "type": "string",
+            "description": "Updated url of content"
+          },
+          "contentProgression": {
+            "type": "number",
+            "description": "Updated progression of content"
+          }
+        }
+      },
+      "body_4": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "Updated question"
+          },
+          "choices": {
+            "type": "array",
+            "description": "Updated choices",
+            "items": {
+              "type": "string"
+            }
+          },
+          "answer": {
+            "type": "string",
+            "description": "Updated answer"
+          },
+          "attempts": {
+            "type": "array",
+            "description": "Updated attempt",
+            "items": {
+              "type": "string"
+            }
+          },
+          "attemptsLimit": {
+            "type": "integer",
+            "description": "Updated attemptsLimit"
+          },
+          "score": {
+            "type": "number",
+            "description": "Updated score"
+          }
+        }
+      },
+      "body_5": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "description": "Updated userName"
+          },
+          "displayName": {
+            "type": "string",
+            "description": "Updated displayName"
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "Course": {
+        "description": "Course object that needs to be added",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Course"
+            }
+          }
+        },
+        "required": true
+      },
+      "CourseReview": {
+        "description": "Course Review object that needs to be added",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CourseReview"
+            }
+          }
+        },
+        "required": true
+      },
+      "CourseCategory": {
+        "description": "Course Category object that needs to be added",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CourseCategory"
+            }
+          }
+        },
+        "required": true
+      },
+      "Content": {
+        "description": "Content object that needs to be added",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Content"
+            }
+          }
+        },
+        "required": true
+      },
+      "RoadMap": {
+        "description": "RoadMap object that needs to be added",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RoadMap"
+            }
+          }
+        },
+        "required": true
+      },
+      "Quiz": {
+        "description": "Quiz object that needs to be added",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Quiz"
+            }
+          }
+        },
+        "required": true
+      },
+      "User": {
+        "description": "User object that needs to be added",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        },
+        "required": true
+      }
+    }
+  }
+}

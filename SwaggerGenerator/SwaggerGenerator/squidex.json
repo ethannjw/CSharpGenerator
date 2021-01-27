@@ -1,0 +1,1583 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Squidex API for ilearn App",
+    "version": "5.4.0.0",
+    "x-logo": {
+      "url": "https://localhost/images/logo-white.png",
+      "backgroundColor": "#3f83df"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://localhost/api"
+    }
+  ],
+  "paths": {
+    "/content/ilearn/video/": {
+      "get": {
+        "tags": [
+          "Video"
+        ],
+        "summary": "Queries Video contents.",
+        "description": "The squidex API the OData url convention to query data. \n\nWe support the following query options.\n\n* **$top**: The $top query option requests the number of items in the queried collection to be included in the result. The default value is 20 and the maximum allowed value is 200.\n* **$skip**: The $skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. Use it together with $top to read the all your data page by page. \n* **$search**: The $search query option allows clients to request entities matching a free-text search expression. We add the data of all fields for all languages to a single field in the database and use this combined field to implement the full text search.\n* **$filter**: The $filter query option allows clients to filter a collection of resources that are addressed by a request URL.\n* **$orderby**: The $orderby query option allows clients to request resources in a particular order.\n\nRead more about it at: https://docs.squidex.io/04-guides/02-api.html\n",
+        "operationId": "QueryVideoContents",
+        "parameters": [
+          {
+            "name": "$search",
+            "in": "query",
+            "description": "Optional OData full text search.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "Optional number of contents to take.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "Optional number of contents to skip.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Optional OData order definition.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Optional OData filter definition.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Video contents retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "total",
+                    "items"
+                  ],
+                  "properties": {
+                    "total": {
+                      "type": "number",
+                      "description": "The total number of Video contents.",
+                      "nullable": false
+                    },
+                    "items": {
+                      "type": "array",
+                      "description": "The Video contents.",
+                      "nullable": false,
+                      "items": {
+                        "$ref": "#/components/schemas/VideoContentDto"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Video query not valid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Operation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "squidex-oauth-auth": [
+              "squidex.apps.ilearn.contents.video.read"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Video"
+        ],
+        "summary": "Create a Video content.",
+        "operationId": "CreateVideoContent",
+        "parameters": [
+          {
+            "name": "publish",
+            "in": "query",
+            "description": "True to automatically publish the content.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "The optional custom content id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "data",
+          "description": "The data of the content to be created or updated.\n            \nPlease note that each field is an object with one entry per language. \nIf the field is not localizable you must use `iv` (invariant language) as a key.\n\nRead more about it at: https://docs.squidex.io/04-guides/02-api.html",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Video content created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoContentDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Video content not valid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Operation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "squidex-oauth-auth": [
+              "squidex.apps.ilearn.contents.video.create"
+            ]
+          }
+        ]
+      }
+    },
+    "/content/ilearn/video/{id}": {
+      "get": {
+        "tags": [
+          "Video"
+        ],
+        "summary": "Get a Video content.",
+        "operationId": "GetVideoContent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The id of the Video content.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Video content found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoContentDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "App, schema or Video content not found."
+          },
+          "500": {
+            "description": "Operation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "squidex-oauth-auth": [
+              "squidex.apps.ilearn.contents.video.read"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Video"
+        ],
+        "summary": "Update a Video content.",
+        "operationId": "UpdateVideoContent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The id of the Video content.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "data",
+          "description": "The data of the content to be created or updated.\n            \nPlease note that each field is an object with one entry per language. \nIf the field is not localizable you must use `iv` (invariant language) as a key.\n\nRead more about it at: https://docs.squidex.io/04-guides/02-api.html",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Video content updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoContentDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Video content not valid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "App, schema or Video content not found."
+          },
+          "500": {
+            "description": "Operation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "squidex-oauth-auth": [
+              "squidex.apps.ilearn.contents.video.update"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Video"
+        ],
+        "summary": "Patch a Video content.",
+        "operationId": "PathVideoContent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The id of the Video content.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "data",
+          "description": "The data of the content to be created or updated.\n            \nPlease note that each field is an object with one entry per language. \nIf the field is not localizable you must use `iv` (invariant language) as a key.\n\nRead more about it at: https://docs.squidex.io/04-guides/02-api.html",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Video content patched.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoContentDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Video status not valid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "App, schema or Video content not found."
+          },
+          "500": {
+            "description": "Operation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "squidex-oauth-auth": [
+              "squidex.apps.ilearn.contents.video.update"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Video"
+        ],
+        "summary": "Delete a Video content.",
+        "operationId": "DeleteVideoContent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The id of the Video content.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Video content deleted."
+          },
+          "404": {
+            "description": "App, schema or Video content not found."
+          },
+          "500": {
+            "description": "Operation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "squidex-oauth-auth": [
+              "squidex.apps.ilearn.contents.video.delete"
+            ]
+          }
+        ]
+      }
+    },
+    "/content/ilearn/video/{id}/status": {
+      "put": {
+        "tags": [
+          "Video"
+        ],
+        "summary": "Change status of Video content.",
+        "operationId": "ChangeVideoContentStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The id of the Video content.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The request to change content status.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeStatusDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Video content status changed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoContentDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Video content not valid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "App, schema or Video content not found."
+          },
+          "500": {
+            "description": "Operation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "squidex-oauth-auth": [
+              "squidex.apps.ilearn.contents.video.update"
+            ]
+          }
+        ]
+      }
+    },
+    "/content/ilearn/content/": {
+      "get": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Queries Content contents.",
+        "description": "The squidex API the OData url convention to query data. \n\nWe support the following query options.\n\n* **$top**: The $top query option requests the number of items in the queried collection to be included in the result. The default value is 20 and the maximum allowed value is 200.\n* **$skip**: The $skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. Use it together with $top to read the all your data page by page. \n* **$search**: The $search query option allows clients to request entities matching a free-text search expression. We add the data of all fields for all languages to a single field in the database and use this combined field to implement the full text search.\n* **$filter**: The $filter query option allows clients to filter a collection of resources that are addressed by a request URL.\n* **$orderby**: The $orderby query option allows clients to request resources in a particular order.\n\nRead more about it at: https://docs.squidex.io/04-guides/02-api.html\n",
+        "operationId": "QueryContentContents",
+        "parameters": [
+          {
+            "name": "$search",
+            "in": "query",
+            "description": "Optional OData full text search.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$top",
+            "in": "query",
+            "description": "Optional number of contents to take.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "$skip",
+            "in": "query",
+            "description": "Optional number of contents to skip.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "$orderby",
+            "in": "query",
+            "description": "Optional OData order definition.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Optional OData filter definition.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Content contents retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "total",
+                    "items"
+                  ],
+                  "properties": {
+                    "total": {
+                      "type": "number",
+                      "description": "The total number of Content contents.",
+                      "nullable": false
+                    },
+                    "items": {
+                      "type": "array",
+                      "description": "The Content contents.",
+                      "nullable": false,
+                      "items": {
+                        "$ref": "#/components/schemas/ContentContentDto"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Content query not valid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Operation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "squidex-oauth-auth": [
+              "squidex.apps.ilearn.contents.content.read"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Create a Content content.",
+        "operationId": "CreateContentContent",
+        "parameters": [
+          {
+            "name": "publish",
+            "in": "query",
+            "description": "True to automatically publish the content.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "The optional custom content id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "data",
+          "description": "The data of the content to be created or updated.\n            \nPlease note that each field is an object with one entry per language. \nIf the field is not localizable you must use `iv` (invariant language) as a key.\n\nRead more about it at: https://docs.squidex.io/04-guides/02-api.html",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContentDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Content content created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentContentDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Content content not valid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Operation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "squidex-oauth-auth": [
+              "squidex.apps.ilearn.contents.content.create"
+            ]
+          }
+        ]
+      }
+    },
+    "/content/ilearn/content/{id}": {
+      "get": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Get a Content content.",
+        "operationId": "GetContentContent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The id of the Content content.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Content content found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentContentDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "App, schema or Content content not found."
+          },
+          "500": {
+            "description": "Operation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "squidex-oauth-auth": [
+              "squidex.apps.ilearn.contents.content.read"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Update a Content content.",
+        "operationId": "UpdateContentContent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The id of the Content content.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "data",
+          "description": "The data of the content to be created or updated.\n            \nPlease note that each field is an object with one entry per language. \nIf the field is not localizable you must use `iv` (invariant language) as a key.\n\nRead more about it at: https://docs.squidex.io/04-guides/02-api.html",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContentDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Content content updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentContentDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Content content not valid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "App, schema or Content content not found."
+          },
+          "500": {
+            "description": "Operation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "squidex-oauth-auth": [
+              "squidex.apps.ilearn.contents.content.update"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Patch a Content content.",
+        "operationId": "PathContentContent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The id of the Content content.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "data",
+          "description": "The data of the content to be created or updated.\n            \nPlease note that each field is an object with one entry per language. \nIf the field is not localizable you must use `iv` (invariant language) as a key.\n\nRead more about it at: https://docs.squidex.io/04-guides/02-api.html",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContentDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Content content patched.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentContentDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Content status not valid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "App, schema or Content content not found."
+          },
+          "500": {
+            "description": "Operation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "squidex-oauth-auth": [
+              "squidex.apps.ilearn.contents.content.update"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Delete a Content content.",
+        "operationId": "DeleteContentContent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The id of the Content content.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Content content deleted."
+          },
+          "404": {
+            "description": "App, schema or Content content not found."
+          },
+          "500": {
+            "description": "Operation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "squidex-oauth-auth": [
+              "squidex.apps.ilearn.contents.content.delete"
+            ]
+          }
+        ]
+      }
+    },
+    "/content/ilearn/content/{id}/status": {
+      "put": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Change status of Content content.",
+        "operationId": "ChangeContentContentStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The id of the Content content.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "The request to change content status.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeStatusDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Content content status changed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentContentDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Content content not valid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "App, schema or Content content not found."
+          },
+          "500": {
+            "description": "Operation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "squidex-oauth-auth": [
+              "squidex.apps.ilearn.contents.content.update"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ChangeStatusDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Status",
+          "CheckReferrers"
+        ],
+        "properties": {
+          "Status": {
+            "type": "string",
+            "description": "The new status.",
+            "minLength": 1
+          },
+          "DueTime": {
+            "type": "string",
+            "description": "The due time.",
+            "format": "date-time"
+          },
+          "CheckReferrers": {
+            "type": "boolean",
+            "description": "True to check referrers of this content."
+          }
+        }
+      },
+      "VideoTitleProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "string",
+            "description": "Invariant",
+            "nullable": true
+          }
+        }
+      },
+      "VideoNameProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "string",
+            "description": "Invariant",
+            "nullable": true
+          }
+        }
+      },
+      "AssetItem": {
+        "type": "string"
+      },
+      "VideoAssetProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "array",
+            "description": "Invariant",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AssetItem"
+            }
+          }
+        }
+      },
+      "ReferenceItem": {
+        "type": "string"
+      },
+      "VideoUrlProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "array",
+            "description": "Invariant",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ReferenceItem"
+            }
+          }
+        }
+      },
+      "VideoCreatedProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "string",
+            "description": "Invariant",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "VideoCreatorProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "string",
+            "description": "Invariant",
+            "nullable": true
+          }
+        }
+      },
+      "VideoViewProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "number",
+            "description": "Invariant",
+            "nullable": true
+          }
+        }
+      },
+      "VideoLikeProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "number",
+            "description": "Invariant",
+            "nullable": true
+          }
+        }
+      },
+      "VideoThumbnailProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "array",
+            "description": "Invariant",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ReferenceItem"
+            }
+          }
+        }
+      },
+      "VideoDislikesProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "number",
+            "description": "Invariant",
+            "nullable": true
+          }
+        }
+      },
+      "VideoSubscribersProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "number",
+            "description": "Invariant",
+            "nullable": true
+          }
+        }
+      },
+      "VideoLengthProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "number",
+            "description": "Invariant",
+            "nullable": true
+          }
+        }
+      },
+      "VideoCommentsProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "array",
+            "description": "Invariant",
+            "nullable": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "comment": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "commentor": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "created": {
+                  "type": "string",
+                  "format": "date-time",
+                  "nullable": true
+                },
+                "likes": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "dislikes": {
+                  "type": "string",
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "VideoDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "description": "title",
+            "nullable": true,
+            "$ref": "#/components/schemas/VideoTitleProperty"
+          },
+          "name": {
+            "description": "name",
+            "nullable": true,
+            "$ref": "#/components/schemas/VideoNameProperty"
+          },
+          "asset": {
+            "description": "asset",
+            "nullable": true,
+            "$ref": "#/components/schemas/VideoAssetProperty"
+          },
+          "url": {
+            "description": "url",
+            "nullable": true,
+            "$ref": "#/components/schemas/VideoUrlProperty"
+          },
+          "created": {
+            "description": "created",
+            "nullable": true,
+            "$ref": "#/components/schemas/VideoCreatedProperty"
+          },
+          "creator": {
+            "description": "creator",
+            "nullable": true,
+            "$ref": "#/components/schemas/VideoCreatorProperty"
+          },
+          "view": {
+            "description": "view",
+            "nullable": true,
+            "$ref": "#/components/schemas/VideoViewProperty"
+          },
+          "like": {
+            "description": "like",
+            "nullable": true,
+            "$ref": "#/components/schemas/VideoLikeProperty"
+          },
+          "thumbnail": {
+            "description": "thumbnail",
+            "nullable": true,
+            "$ref": "#/components/schemas/VideoThumbnailProperty"
+          },
+          "dislikes": {
+            "description": "dislikes",
+            "nullable": true,
+            "$ref": "#/components/schemas/VideoDislikesProperty"
+          },
+          "subscribers": {
+            "description": "subscribers",
+            "nullable": true,
+            "$ref": "#/components/schemas/VideoSubscribersProperty"
+          },
+          "length": {
+            "description": "length",
+            "nullable": true,
+            "$ref": "#/components/schemas/VideoLengthProperty"
+          },
+          "comments": {
+            "description": "comments",
+            "nullable": true,
+            "$ref": "#/components/schemas/VideoCommentsProperty"
+          }
+        }
+      },
+      "VideoContentDto": {
+        "type": "object",
+        "required": [
+          "id",
+          "data",
+          "version",
+          "created",
+          "createdBy",
+          "lastModified",
+          "lastModifiedBy",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The id of the video content.",
+            "nullable": false
+          },
+          "data": {
+            "description": "The data of the video.",
+            "nullable": false,
+            "$ref": "#/components/schemas/VideoDto"
+          },
+          "dataDraft": {
+            "description": "The draft data of the video.",
+            "nullable": true,
+            "$ref": "#/components/schemas/VideoDto"
+          },
+          "version": {
+            "type": "number",
+            "description": "The version of the video.",
+            "nullable": false
+          },
+          "created": {
+            "type": "string",
+            "description": "The date and time when the video content has been created.",
+            "format": "date-time",
+            "nullable": false
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "The user that has created the video content.",
+            "nullable": false
+          },
+          "lastModified": {
+            "type": "string",
+            "description": "The date and time when the video content has been modified last.",
+            "format": "date-time",
+            "nullable": false
+          },
+          "lastModifiedBy": {
+            "type": "string",
+            "description": "The user that has updated the video content last.",
+            "nullable": false
+          },
+          "newStatus": {
+            "type": "string",
+            "description": "The new status of the content.",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the content.",
+            "nullable": false
+          }
+        }
+      },
+      "ContentContentNameProperty": {
+        "type": "object",
+        "required": [
+          "en"
+        ],
+        "properties": {
+          "en": {
+            "type": "string",
+            "description": "English",
+            "nullable": false
+          }
+        }
+      },
+      "ContentContentDescriptionProperty": {
+        "type": "object",
+        "properties": {
+          "en": {
+            "type": "string",
+            "description": "English",
+            "nullable": true
+          }
+        }
+      },
+      "ContentContentTypeProperty": {
+        "type": "object",
+        "properties": {
+          "en": {
+            "type": "string",
+            "description": "English",
+            "nullable": true,
+            "x-enumNames": [
+              "video",
+              "pdf",
+              "infographic",
+              "e-book",
+              "audiobook"
+            ]
+          }
+        }
+      },
+      "ContentContentDurationProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "number",
+            "description": "Invariant",
+            "nullable": true
+          }
+        }
+      },
+      "ContentContentAssetProperty": {
+        "type": "object",
+        "properties": {
+          "iv": {
+            "type": "array",
+            "description": "Invariant",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AssetItem"
+            }
+          }
+        }
+      },
+      "ContentDto": {
+        "type": "object",
+        "required": [
+          "contentName"
+        ],
+        "properties": {
+          "contentName": {
+            "description": "contentName",
+            "nullable": false,
+            "$ref": "#/components/schemas/ContentContentNameProperty"
+          },
+          "contentDescription": {
+            "description": "contentDescription",
+            "nullable": true,
+            "$ref": "#/components/schemas/ContentContentDescriptionProperty"
+          },
+          "contentType": {
+            "description": "contentType",
+            "nullable": true,
+            "$ref": "#/components/schemas/ContentContentTypeProperty"
+          },
+          "contentDuration": {
+            "description": "contentDuration",
+            "nullable": true,
+            "$ref": "#/components/schemas/ContentContentDurationProperty"
+          },
+          "contentAsset": {
+            "description": "contentAsset",
+            "nullable": true,
+            "$ref": "#/components/schemas/ContentContentAssetProperty"
+          }
+        }
+      },
+      "ContentContentDto": {
+        "type": "object",
+        "required": [
+          "id",
+          "data",
+          "version",
+          "created",
+          "createdBy",
+          "lastModified",
+          "lastModifiedBy",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The id of the content content.",
+            "nullable": false
+          },
+          "data": {
+            "description": "The data of the content.",
+            "nullable": false,
+            "$ref": "#/components/schemas/ContentDto"
+          },
+          "dataDraft": {
+            "description": "The draft data of the content.",
+            "nullable": true,
+            "$ref": "#/components/schemas/ContentDto"
+          },
+          "version": {
+            "type": "number",
+            "description": "The version of the content.",
+            "nullable": false
+          },
+          "created": {
+            "type": "string",
+            "description": "The date and time when the content content has been created.",
+            "format": "date-time",
+            "nullable": false
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "The user that has created the content content.",
+            "nullable": false
+          },
+          "lastModified": {
+            "type": "string",
+            "description": "The date and time when the content content has been modified last.",
+            "format": "date-time",
+            "nullable": false
+          },
+          "lastModifiedBy": {
+            "type": "string",
+            "description": "The user that has updated the content content last.",
+            "nullable": false
+          },
+          "newStatus": {
+            "type": "string",
+            "description": "The new status of the content.",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the content.",
+            "nullable": false
+          }
+        }
+      },
+      "ErrorDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Message",
+          "StatusCode"
+        ],
+        "properties": {
+          "Message": {
+            "type": "string",
+            "description": "Error message.",
+            "minLength": 1
+          },
+          "TraceId": {
+            "type": "string",
+            "description": "The optional trace id."
+          },
+          "Type": {
+            "type": "string",
+            "description": "Link to the error details."
+          },
+          "Details": {
+            "type": "array",
+            "description": "Detailed error messages.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "StatusCode": {
+            "type": "integer",
+            "description": "Status code of the http response.",
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "squidex-oauth-auth": {
+        "type": "oauth2",
+        "description": "Squidex uses oauth2 client authentication. Read more about it at: https://oauth.net/2/ and https://tools.ietf.org/html/rfc6750.\n\nTo retrieve an access token, the client id must make a request to the token url. For example:\n\n    $ curl\n        -X POST 'https://localhost/identity-server/connect/token' \n        -H 'Content-Type: application/x-www-form-urlencoded' \n        -d 'grant_type=client_credentials&\n            client_id=[APP_NAME]:[CLIENT_ID]&\n            client_secret=[CLIENT_SECRET]&\n\t\t\tscope=squidex-api'\n\n`[APP_NAME]` is the name of your app. You have to create a client to generate an access token.\n\nYou must send this token in the `Authorization` header when making requests to the API:\n\n     Authorization: Bearer <token>",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://localhost/identity-server/connect/token",
+            "scopes": {
+              "squidex-api": "Read and write access to the API"
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "squidex-oauth-auth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Video",
+      "description": "API to manage Video contents."
+    },
+    {
+      "name": "Content",
+      "description": "API to manage Content contents."
+    }
+  ],
+  "externalDocs": {
+    "url": "https://docs.squidex.io"
+  }
+}
